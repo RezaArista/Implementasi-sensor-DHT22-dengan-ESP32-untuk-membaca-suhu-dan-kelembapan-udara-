@@ -41,7 +41,7 @@ Proyek ini bertujuan untuk mengukur suhu dan kelembapan udara menggunakan sensor
 ### Gambar 1: Hasil ESP32 dan DHT22
 
 ![Diagram Koneksi ESP32 dan DHT22](tampilan.png)
-![Diagram Koneksi ESP32 dan DHT22](gambar tampilan web.jpeg)
+([gambar tampilan web.jpeg](https://github.com/RezaArista/Implementasi-sensor-DHT22-dengan-ESP32-untuk-membaca-suhu-dan-kelembapan-udara-/blob/main/gambar%20tampilan%20web.jpeg))
 
 ## Kontribusi
 
