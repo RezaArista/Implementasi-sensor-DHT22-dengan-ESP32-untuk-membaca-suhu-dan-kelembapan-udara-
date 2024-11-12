@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard ESP32</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+.card-header{
+	font-size: 25px;
+}
+
+</style>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Humidity Monitoring Dashboard</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-primary text-white">
+                        Suhu
+                    </div>
+                    <div class="card-body">
+                        <h2 id="suhu"><%= temperature %> °C</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-info text-white">
+                        Humidity
+                    </div>
+                    <div class="card-body">
+                        <h2 id="humidity"><%= humidity %> %</h2>
+                    </div>
+                </div>
+            </div>
+	 </div>
+		
+	<div class="row">
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-warning text-white">
+                        WiFi Status
+                    </div>
+                    <div class="card-body">
+                        <h2 id="wifi-status"><%= wifiStatus %></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-success text-white">
+                        MQTT Status
+                    </div>
+                    <div class="card-body">
+                        <h2 id="mqtt-status"><%= mqttStatus %></h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kartu untuk Alamat MAC -->
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-secondary text-white">
+                        Alamat MAC
+                    </div>
+                    <div class="card-body">
+                        <h2 id="mac-address"><%= macAddress %></h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kartu untuk Alamat IP -->
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-dark text-white">
+                        Alamat IP
+                    </div>
+                    <div class="card-body">
+                        <h2 id="ip-address"><%= ipAddress %></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Mendengarkan data dari socket.io
+        socket.on('mqttData', (data) => {
+            document.getElementById('suhu').innerText = data.temperature + ' °C';
+            document.getElementById('humidity').innerText = data.humidity + ' %';
+            document.getElementById('wifi-status').innerText = data.wifiStatus;
+            document.getElementById('mqtt-status').innerText = data.mqttStatus;
+            document.getElementById('mac-address').innerText = data.macAddress;
+            document.getElementById('ip-address').innerText = data.ipAddress;
+        });
+    </script>
+</body>
+</html>

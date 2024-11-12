@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Humidity Monitoring Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Library ikon -->
+</head>
+<style>
+    .card-header {
+        font-size: 25px;
+    }
+
+    /* Animasi untuk IoT Status */
+    #iot-status-card {
+        transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+
+   
+    .iot-on {
+        background-color: #28a745 !important; /* Hijau untuk On */
+        color: white !important;
+        transform: scale(1.05); /* Membesar sedikit saat On */
+    }
+
+    /* Style untuk status Off */
+    .iot-off {
+        background-color: #dc3545 !important; /* Merah untuk Off */
+        color: white !important;
+        transform: scale(1); /* Ukuran normal saat Off */
+    }
+
+    /* Ikon On/Off */
+    .iot-icon {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    /* Transisi untuk teks */
+    #iot-status-text {
+        transition: opacity 0.5s ease;
+    }
+</style>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Humidity Monitoring Dashboard</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-primary text-white">
+                        Suhu
+                    </div>
+                    <div class="card-body">
+                        <h2 id="suhu"><%= temperature %> °C</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-info text-white">
+                        Humidity
+                    </div>
+                    <div class="card-body">
+                        <h2 id="humidity"><%= humidity %> %</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-warning text-white">
+                        WiFi Status
+                    </div>
+                    <div class="card-body">
+                        <h2 id="wifi-status"><%= wifiStatus %></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-success text-white">
+                        MQTT Status
+                    </div>
+                    <div class="card-body">
+                        <h2 id="mqtt-status"><%= mqttStatus %></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-secondary text-white">
+                        Alamat MAC
+                    </div>
+                    <div class="card-body">
+                        <h2 id="mac-address"><%= macAddress %></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 mt-3">
+                <div class="card text-center">
+                    <div class="fw-bold card-header bg-dark text-white">
+                        Alamat IP
+                    </div>
+                    <div class="card-body">
+                        <h2 id="ip-address"><%= ipAddress %></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IoT Status Card -->
+        <div class="row">
+            <div class="col-10 col-md-6 mt-3 mx-auto text-center"> <!-- Tambahkan mx-auto untuk center -->
+                <div class="card text-center iot-off" id="iot-status-card">
+                    <div class="fw-bold card-header text-white">
+                        IoT Status
+                    </div>
+                    <div class="card-body">
+                        <i id="iot-icon" class="fas fa-power-off iot-icon"></i> <!-- Ikon On/Off -->
+                        <h2 id="iot-status-text">Off</h2> <!-- Status akan diupdate ke On/Off -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let iotTimeout; // Variabel untuk menyimpan timeout
+
+        // Fungsi untuk mengubah status ke Off jika tidak ada data
+        const setIoTOff = () => {
+            const iotStatusCard = document.getElementById('iot-status-card');
+            const iotStatusText = document.getElementById('iot-status-text');
+            const iotIcon = document.getElementById('iot-icon');
+
+            iotStatusCard.classList.remove('iot-on');
+            iotStatusCard.classList.add('iot-off');
+            
+            iotStatusText.innerText = 'Off';
+            iotIcon.classList.remove('fa-check-circle');
+            iotIcon.classList.add('fa-power-off');
+        };
+
+        // Mendengarkan data dari socket.io
+        socket.on('mqttData', (data) => {
+            document.getElementById('suhu').innerText = data.temperature + ' °C';
+            document.getElementById('humidity').innerText = data.humidity + ' %';
+            document.getElementById('wifi-status').innerText = data.wifiStatus;
+            document.getElementById('mqtt-status').innerText = data.mqttStatus;
+            document.getElementById('mac-address').innerText = data.macAddress;
+            document.getElementById('ip-address').innerText = data.ipAddress;
+
+            // Set IoT Status ke "On" dengan animasi
+            const iotStatusCard = document.getElementById('iot-status-card');
+            const iotStatusText = document.getElementById('iot-status-text');
+            const iotIcon = document.getElementById('iot-icon');
+            
+            iotStatusCard.classList.remove('iot-off');
+            iotStatusCard.classList.add('iot-on');
+            
+            iotStatusText.innerText = 'On';
+            iotIcon.classList.remove('fa-power-off');
+            iotIcon.classList.add('fa-check-circle');
+
+            // Batalkan timeout "Off" jika ada data baru
+            clearTimeout(iotTimeout);
+
+	    // Atur timeout baru, jika dalam 10 detik tidak ada data baru, set IoT ke Off
+            iotTimeout = setTimeout(setIoTOff, 5000); // 10 detik tanpa data, set status Off
+        });
+
+        // Mengatur IoT Status menjadi "Off" jika koneksi hilang
+        socket.on('disconnect', setIoTOff); // Menangani jika koneksi socket terputus
+    </script>
+</body>
+</html>
