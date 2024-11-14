@@ -1,3 +1,4 @@
+
 # Implementasi Sensor DHT22 dengan ESP32
 
 Proyek ini mengimplementasikan sensor **DHT22** dengan **ESP32** untuk membaca suhu dan kelembapan udara. Data yang dibaca akan ditampilkan pada layar LCD dan dapat dipantau melalui web server dengan framework Flask.
@@ -31,7 +32,8 @@ Proyek ini bertujuan untuk mengukur suhu dan kelembapan udara menggunakan sensor
    - Buat Cloud Hivemq.
      
 4. **Install python dan flask**
-   - ((https://www.python.org/)](https://www.python.org/downloads/))]([https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE](https://flask.palletsprojects.com/en/stable/installation/ ). 
+   - [python]([https://www.python.org/downloads/](https://www.python.org/downloads/)).
+   - [flask]([https://flask.palletsprojects.com/en/stable/installation/](https://flask.palletsprojects.com/en/stable/installation/)).
 
 ## Cara Menjalankan Proyek
 
