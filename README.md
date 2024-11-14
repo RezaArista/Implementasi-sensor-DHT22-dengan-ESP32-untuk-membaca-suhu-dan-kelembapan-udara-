@@ -20,7 +20,7 @@ Proyek ini bertujuan untuk mengukur suhu dan kelembapan udara menggunakan sensor
 
 ## Instalasi
 
-1. **Download dan Setup PlatformIO**:
+1. **Download dan Setup Arduino IDE**:
    - Pastikan Anda sudah menginstall [ardruino]([https://platformio.org/](https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE)).
    - Buka project ini menggunakan Arduino IDE.
 
