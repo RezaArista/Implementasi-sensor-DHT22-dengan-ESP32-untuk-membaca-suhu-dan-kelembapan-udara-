@@ -29,12 +29,16 @@ Proyek ini bertujuan untuk mengukur suhu dan kelembapan udara menggunakan sensor
   
 3. **Buat Cloud Hivemq**:
    - Buat Cloud Hivemq.
+     
+4. **Install python dan flask**
+   - ([https://platformio.org/]([https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE](https://flask.palletsprojects.com/en/stable/installation/ ))). 
 
 ## Cara Menjalankan Proyek
 
 1. **Hubungkan sensor DHT22 dan ESP32 sesuai dengan pin yang telah ditentukan**.
 2. **Upload kode program** ke ESP32 menggunakan Arduino IDE.
 3. **Monitor data yang dibaca pada LCD** dan akses server web untuk melihat data lebih lanjut.
+4. **Untuk menampilkan display web** install flask pada komputer pastikan python sudah terpasang.
 
 ## Menampilkan Gambar
 
