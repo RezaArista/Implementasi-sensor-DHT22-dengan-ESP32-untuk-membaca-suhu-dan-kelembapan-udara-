@@ -31,7 +31,7 @@ Proyek ini bertujuan untuk mengukur suhu dan kelembapan udara menggunakan sensor
    - Buat Cloud Hivemq.
      
 4. **Install python dan flask**
-   - [https://platformio.org/](https://support.arduino.cc/)]([https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE](https://flask.palletsprojects.com/en/stable/installation/ ). 
+   - ([https://support.arduino.cc/](https://www.python.org/)](https://www.python.org/downloads/))]([https://support.arduino.cc/hc/en-us/articles/360019833020-Download-and-install-Arduino-IDE](https://flask.palletsprojects.com/en/stable/installation/ ). 
 
 ## Cara Menjalankan Proyek
 
